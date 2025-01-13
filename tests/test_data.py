@@ -1,8 +1,11 @@
+import os
+
+import pytest
 from torch.utils.data import Dataset
 
 from mnist_classifier.data import corrupt_mnist
 
-
+@pytest.mark.skipif(not os.path.exists("data/processed/test_images.pt"), reason="Data files not found")
 def test_data():
     dataset_train, dataset_test = corrupt_mnist()
     assert len(dataset_train) == 30000, "Dataset size should be 30000"
