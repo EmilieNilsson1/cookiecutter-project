@@ -2,6 +2,7 @@ import torch
 
 from mnist_classifier.model import Classifier
 
+
 def test_train():
     criterion = torch.nn.CrossEntropyLoss()
     x = torch.randn(1, 1, 28, 28)
