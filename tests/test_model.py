@@ -2,7 +2,7 @@ import torch
 import pytest
 import importlib
 
-from src.mnist_classifier.model import Classifier
+from mnist_classifier.model import Classifier
 import mnist_classifier.model
 importlib.reload(mnist_classifier.model)
 print(mnist_classifier.model.__file__)

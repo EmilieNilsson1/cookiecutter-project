@@ -1,6 +1,6 @@
 import typer
 import torch
-
+import warnings
 
 def normalize(images: torch.Tensor) -> torch.Tensor:
     return (images - images.mean()) / images.std()
@@ -10,8 +10,8 @@ def preprocess(raw_path: str, process_path: str) -> tuple[torch.utils.data.Datas
     """Return train and test dataloaders for corrupt MNIST."""
     train_im, train_target = [], []
     for i in range(6):
-        train_im.append(torch.load(f"{raw_path}/train_images_{i}.pt"))
-        train_target.append(torch.load(f"{raw_path}/train_target_{i}.pt"))
+            train_im.append(torch.load(f"{raw_path}/train_images_{i}.pt"))
+            train_target.append(torch.load(f"{raw_path}/train_target_{i}.pt"))
 
     train_im = torch.cat(train_im, dim=0).unsqueeze(1).float()
     train_target = torch.cat(train_target, dim=0).long()
@@ -41,4 +41,6 @@ def corrupt_mnist() -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]
 
 
 if __name__ == "__main__":
-    typer.run(preprocess)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        typer.run(preprocess)
