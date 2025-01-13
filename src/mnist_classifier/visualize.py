@@ -1,9 +1,10 @@
-import torch
 import matplotlib.pyplot as plt
+import torch
+import typer
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-import typer
-from mnist_classifier import corrupt_mnist, Classifier
+
+from mnist_classifier import Classifier, corrupt_mnist
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 

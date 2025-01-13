@@ -1,19 +1,21 @@
 import os
-
-import torch
-import matplotlib.pyplot as plt
-#import typer
-#from omegaconf import OmegaConf
-import hydra
-import wandb
 from pathlib import Path
 
-from data import corrupt_mnist
+# import typer
+# from omegaconf import OmegaConf
+import hydra
+import matplotlib.pyplot as plt
+import torch
 from model import Classifier
-#from mnist_classifier import corrupt_mnist, Classifier
 
-#app = typer.Typer()
+import wandb
+from data import corrupt_mnist
+
+# from mnist_classifier import corrupt_mnist, Classifier
+
+# app = typer.Typer()
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+
 
 @hydra.main(config_path="../../configs", config_name="train_conf")
 def train(config) -> None:
@@ -61,11 +63,11 @@ def train(config) -> None:
 
     print("Training complete")
     torch.save(model.state_dict(), "models/model.pth")
-    
+
 
 # def main():
 #     typer.run(train)
 
 if __name__ == "__main__":
-   #main()
-   train()
+    # main()
+    train()

@@ -1,7 +1,7 @@
 import torch
 import typer
 
-from mnist_classifier import corrupt_mnist, Classifier
+from mnist_classifier import Classifier, corrupt_mnist
 
 app = typer.Typer()
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -31,8 +31,10 @@ def evaluate(model_checkpoint: str = "models/model.pth") -> None:
             total += target.size(0)
     print(f"Test accuracy: {correct / total}")
 
+
 def main():
     typer.run(evaluate)
+
 
 if __name__ == "__main__":
     main()
