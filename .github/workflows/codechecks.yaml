@@ -28,7 +28,7 @@ jobs:
     - name: ruff stuff
       run: |
         ruff check
-        ruff format
+        ruff format --fix
     - name: mypy
       run: |
         mypy src/
