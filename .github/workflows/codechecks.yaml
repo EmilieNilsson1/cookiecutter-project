@@ -25,10 +25,12 @@ jobs:
       run: |
         pip install ruff
         pip install mypy
-    - name: ruff stuff
+    - name: ruff check
       run: |
-        ruff check .
-        ruff format .
+        ruff check src/ 
+    - name: ruff format
+      run: |
+        ruff format src/
     - name: mypy
       run: |
         mypy src/
