@@ -1,28 +1,32 @@
 import os
+
 import torch
 import matplotlib.pyplot as plt
-import typer
-from omegaconf import OmegaConf
+#import typer
+#from omegaconf import OmegaConf
 import hydra
+import wandb
+from pathlib import Path
 
-# from data import corrupt_mnist
-# from model import Classifier
-from mnist_classifier import corrupt_mnist, Classifier
+from data import corrupt_mnist
+from model import Classifier
+#from mnist_classifier import corrupt_mnist, Classifier
 
-app = typer.Typer()
+#app = typer.Typer()
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
-@hydra.main(config_path="conf", config_name="train_conf")
+@hydra.main(config_path="../../configs", config_name="train_conf")
 def train(config) -> None:
     """Train a model on MNIST data. Saves trained model to models/model.pth."""
+    wandb.init(project="mnist_classifier", entity="emilienilsson-danmarks-tekniske-universitet-dtu")
     hparams = config.hyperparameters
     lr = hparams.lr
     batch_size = hparams.batch_size
-    epoch = hparams.epoch
+    epochs = hparams.epochs
     torch.manual_seed(hparams.seed)
 
     print("Training start")
-    print(f"Learning rate: {lr}, Batch size: {batch_size}, Epochs: {epoch}")
+    print(f"Learning rate: {lr}, Batch size: {batch_size}, Epochs: {epochs}")
 
     # load model and data
     model = Classifier().to(DEVICE)
@@ -35,7 +39,7 @@ def train(config) -> None:
 
     # save training loss and accuracy
     statistics = {"train_loss": [], "train_accuracy": []}
-    for ep in range(epoch):
+    for ep in range(epochs):
         model.train()
         for i, (im, target) in enumerate(train_dataloader):
             im, target = im.to(DEVICE), target.to(DEVICE)
@@ -49,6 +53,7 @@ def train(config) -> None:
             statistics["train_loss"].append(loss.item())
             accuracy = (output.argmax(dim=1) == target).float().mean().item()
             statistics["train_accuracy"].append(accuracy)
+            wandb.log({"train_loss": loss.item(), "train_accuracy": accuracy})
 
             # print statistics if epoch is divisible by 100
             if i % 100 == 0:
@@ -56,15 +61,11 @@ def train(config) -> None:
 
     print("Training complete")
     torch.save(model.state_dict(), "models/model.pth")
-    fig, axs = plt.subplots(1, 2, figsize=(15, 5))
-    axs[0].plot(statistics["train_loss"])
-    axs[0].set_title("Train loss")
-    axs[1].plot(statistics["train_accuracy"])
-    axs[1].set_title("Train accuracy")
-    fig.savefig("reports/figures/training_statistics.png")
+    
 
-def main():
-    typer.run(train)
+# def main():
+#     typer.run(train)
 
 if __name__ == "__main__":
-    main()
+   #main()
+   train()
