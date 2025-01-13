@@ -5,5 +5,6 @@ uvicorn==0.34.0
 scikit-learn
 matplotlib
 invoke
-
+coverage
+pytest
 hydra-core
