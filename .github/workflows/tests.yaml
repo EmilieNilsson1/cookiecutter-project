@@ -24,7 +24,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements_tests.txt
-        pip istall e .
+        pip install e .
     - name: Test with pytest
       run: |
         pytest tests/
