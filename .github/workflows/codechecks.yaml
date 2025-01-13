@@ -27,8 +27,8 @@ jobs:
         pip install mypy
     - name: ruff stuff
       run: |
-        ruff check
-        ruff format --fix
+        ruff check .
+        ruff format .
     - name: mypy
       run: |
         mypy src/
