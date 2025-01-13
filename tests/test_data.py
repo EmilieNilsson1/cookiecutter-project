@@ -1,6 +1,6 @@
 from torch.utils.data import Dataset
 
-from mnist_classifier.data import corrupt_mnist
+from src.mnist_classifier.data import corrupt_mnist
 
 
 def test_data():

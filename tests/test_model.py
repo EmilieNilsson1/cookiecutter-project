@@ -2,10 +2,11 @@ import torch
 import pytest
 import importlib
 
-from mnist_classifier.model import Classifier
+from src.mnist_classifier.model import Classifier
 import mnist_classifier.model
 importlib.reload(mnist_classifier.model)
 print(mnist_classifier.model.__file__)
+
 def test_model():
     x = torch.randn(1, 1, 28, 28)
     model = mnist_classifier.model.Classifier()

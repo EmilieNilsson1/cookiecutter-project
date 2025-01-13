@@ -1,6 +1,6 @@
 import torch
 
-from mnist_classifier.model import Classifier
+from src.mnist_classifier.model import Classifier
 
 def test_train():
     criterion = torch.nn.CrossEntropyLoss()
